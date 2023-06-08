@@ -1,7 +1,5 @@
+import { FirebaseProvider } from '@/src/ui/context/FirebaseContext'
 import type { Metadata } from 'next'
-
-// These styles apply to every route in the application
-import '../ui/css/global.css'
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -14,8 +12,10 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html>
-			<body>{children}</body>
-		</html>
+		<FirebaseProvider>
+			<html>
+				<body>{children}</body>
+			</html>
+		</FirebaseProvider>
 	)
 }

@@ -1,4 +1,4 @@
-import FirebaseContext from "@/src/ui/context/FirebaseContext"
+import FirebaseContext from "@/src/ui/contexts/FirebaseContext"
 import { useContext } from "react"
 
 export default function Home() {

@@ -1,4 +1,4 @@
-import { FirebaseProvider } from '@/src/ui/context/FirebaseContext'
+import { FirebaseProvider } from '@/src/ui/contexts/FirebaseContext'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {

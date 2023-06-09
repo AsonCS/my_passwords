@@ -1,18 +1,9 @@
 import NextLink from 'next/link'
 import React from 'react'
 
-export function Link(props: {
-	href: string
-	children: React.ReactNode
-	props: any
-}) {
+export function Link(props: { href: string; children: React.ReactNode }) {
 	return (
-		<NextLink
-			href={props.href}
-			passHref={true}
-			prefetch={false}
-			{...props.props}
-		>
+		<NextLink passHref={true} prefetch={false} {...props}>
 			{props.children}
 		</NextLink>
 	)

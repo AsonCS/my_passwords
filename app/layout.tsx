@@ -1,4 +1,6 @@
-import { FirebaseProvider } from '@/src/ui/contexts/FirebaseContext'
+/* eslint-disable @next/next/no-page-custom-font */
+import StyledComponentsRegistry from '@/src/ui/infra/styled'
+import { GlobalStyle } from '@/src/ui/styled'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -12,10 +14,29 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<FirebaseProvider>
-			<html>
-				<body>{children}</body>
-			</html>
-		</FirebaseProvider>
+		<html lang='pt-BR'>
+			<head>
+				<link rel='preconnect' href='https://fonts.googleapis.com' />
+				<link
+					rel='preconnect'
+					href='https://fonts.gstatic.com'
+					crossOrigin=''
+				/>
+				<link
+					href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap'
+					rel='stylesheet'
+				/>
+				<link
+					href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap'
+					rel='stylesheet'
+				/>
+			</head>
+			<body>
+				<StyledComponentsRegistry>
+					<GlobalStyle />
+					{children}
+				</StyledComponentsRegistry>
+			</body>
+		</html>
 	)
 }

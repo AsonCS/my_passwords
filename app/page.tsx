@@ -1,3 +1,3 @@
-import Home from '@/src/ui/screens/home'
+import HomeScreen from '@/src/ui/screens/home'
 
-export default Home
+export default HomeScreen

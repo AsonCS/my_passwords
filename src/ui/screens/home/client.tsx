@@ -1,11 +1,11 @@
 'use client'
 
-import { setTokenCookie } from '@/src/infra/Cookies'
+import { tokenCookie } from '@/src/infra/Cookies'
 import httpClient from '@/src/infra/HttpClient'
 
-const onSubmit = async (e: SubmitEvent) => {
-	e.preventDefault()
-	const num = (e.target as any).num.value
+async function onSubmit(resultId: string, ev: SubmitEvent) {
+	ev.preventDefault()
+	const num = (ev.target as any).num.value
 	const res = await httpClient<string>('/api', {
 		test: num,
 	}).catch((err) => {
@@ -14,14 +14,20 @@ const onSubmit = async (e: SubmitEvent) => {
 
 		return typeof err.error === 'string' ? err.error : 'Error: '
 	})
-	console.log(res)
+
+	const element = document.getElementById(resultId)
+	if (element) {
+		element.innerHTML = res.param
+			? `Result param: ${res.param}`
+			: `Result: ${res}`
+	}
 }
 
-export function OnSubmit(props: { formId: string }) {
+export function OnSubmit(props: { formId: string; resultId: string }) {
 	try {
-		setTokenCookie('Cookie-Test')
+		tokenCookie.set('Cookie-Test')
 		const form = document.getElementById(props.formId) as HTMLFormElement
-		form.onsubmit = onSubmit
+		form.onsubmit = (ev: SubmitEvent) => onSubmit(props.resultId, ev)
 	} catch (e) {}
 
 	return null

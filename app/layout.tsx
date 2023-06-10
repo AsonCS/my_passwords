@@ -2,6 +2,7 @@
 import StyledComponentsRegistry from '@/src/ui/infra/styled'
 import { GlobalStyle } from '@/src/ui/styled'
 import type { Metadata } from 'next'
+import React from 'react'
 
 export const metadata: Metadata = {
 	title: 'Home Screen',

@@ -1,6 +1,6 @@
 'use client'
 
-import styled, { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
 	/* Reset CSS (Necolas Reset CSS <3) */

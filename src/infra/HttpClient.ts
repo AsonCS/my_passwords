@@ -1,4 +1,6 @@
-export type HttpClientRequest = {}
+export type HttpClientRequest = {
+	method: string
+}
 
 export interface HttpClientResponse<T> {
 	data: T | null | undefined
@@ -8,12 +10,22 @@ export interface HttpClientResponse<T> {
 
 export default async function httpClient<T>(
 	url: string,
-	data: any,
-	request: HttpClientRequest = {}
+	data: any | null = null,
+	request: HttpClientRequest = {
+		method: 'GET',
+	}
 ): Promise<T> {
 	return httpClientWithResponse<T>(url, data, request).then((res) => {
-		if (res.error) {
-			throw res
+		// console.log('httpClient', res)
+
+		if (typeof res.error === 'string') {
+			throw new Error(res.error)
+		}
+		if (
+			typeof res.error === 'object' &&
+			typeof res.error?.message === 'string'
+		) {
+			throw res.error
 		}
 
 		return res.data as T
@@ -23,14 +35,14 @@ export default async function httpClient<T>(
 export async function httpClientWithResponse<T>(
 	url: string,
 	data: any,
-	request: HttpClientRequest = {}
+	request: HttpClientRequest
 ): Promise<HttpClientResponse<T>> {
 	return fetch(url, {
-		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
 		body: data ? JSON.stringify(data) : null,
+		...request,
 	})
 		.then(async (res) => {
 			const json = await res.json()

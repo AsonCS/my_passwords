@@ -9,8 +9,8 @@ async function onSubmit(resultId: string, ev: SubmitEvent) {
 	const res = await httpClient<string>('/api', {
 		test: num,
 	}).catch((err) => {
-		console.log('Error: ')
-		console.log(err)
+		// console.log('Error: ')
+		// console.log(err)
 
 		return typeof err.error === 'string' ? err.error : 'Error: '
 	})
@@ -28,7 +28,9 @@ export function OnSubmit(props: { formId: string; resultId: string }) {
 		tokenCookie.set('Cookie-Test')
 		const form = document.getElementById(props.formId) as HTMLFormElement
 		form.onsubmit = (ev: SubmitEvent) => onSubmit(props.resultId, ev)
-	} catch (e) {}
+	} catch (e) {
+		/* empty */
+	}
 
 	return null
 }

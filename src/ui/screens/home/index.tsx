@@ -1,27 +1,13 @@
-import { tokenCookie } from '@/src/infra/Cookies'
-import { Link } from '@/src/ui/infra/next'
-import { randomId } from '@/src/ui/infra'
+import { randomId } from '../../infra'
+import PasswordGroups from './PasswordGroups'
 
-import { OnSubmit } from './client'
+export default async function HomeScreen() {
+	const homeScreenId = randomId('homeScreenId')
 
-import { cookies } from 'next/headers'
-
-export default function HomeScreen() {
-	console.log('tokenCookie.getAll(cookies())')
-	console.log(tokenCookie.getAll(cookies()))
-
-	const formId = randomId('home_form')
-	const resultId = randomId('home_result')
 	return (
 		<>
-			<h1>Hello word</h1>
-			<form action='#' id={formId}>
-				<input name='num' type='text' defaultValue='12' />
-				<button type='submit'>Send</button>
-				<OnSubmit formId={formId} resultId={resultId} />
-			</form>
-			<p id={resultId}></p>
-			<Link href='/test'>Test</Link>
+			<h1 id={homeScreenId}>Home Screen</h1>
+			<PasswordGroups homeScreenId={homeScreenId} />
 		</>
 	)
 }

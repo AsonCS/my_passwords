@@ -5,6 +5,7 @@ import { createGlobalStyle } from 'styled-components'
 export const GlobalStyle = createGlobalStyle`
 	/* Reset CSS (Necolas Reset CSS <3) */
 	:root {
+		/* 
 		--blue: #3772ff;
 		--green: #36d6ad;
 		--white: #ffffff;
@@ -14,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
 		--light-gray: #bcbcbc;
 		--light-2-gray: #f6f6f6;
 		--alpha-gray: #66666611;
+		 */
 
 		--font-main: 'Poppins', sans-serif;
 		--font-secondary: 'IBM Plex Sans', sans-serif;

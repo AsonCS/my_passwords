@@ -1,7 +1,14 @@
 {
-	"extends": ["next", "eslint:recommended", "next/core-web-vitals"],
+	"extends": [
+		"next",
+		"eslint:recommended",
+		"next/core-web-vitals",
+		"plugin:storybook/recommended"
+	],
 	"rules": {
 		"no-console": "error",
-		"@next/next/no-html-link-for-pages": "error"
+		"@next/next/no-html-link-for-pages": "error",
+		"semi": ["error", "never"],
+		"quotes": ["error", "single"]
 	}
 }

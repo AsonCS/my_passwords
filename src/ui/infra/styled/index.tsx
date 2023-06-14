@@ -1,8 +1,43 @@
 'use client'
 
-import React, { useState } from 'react'
 import { useServerInsertedHTML } from 'next/navigation'
-import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
+import React, { useState } from 'react'
+import {
+	ServerStyleSheet,
+	StyleSheetManager,
+	ThemeProvider,
+} from 'styled-components'
+
+import { getTheme, ThemeType } from './theme'
+import { Theme } from '../../theme'
+
+const DEFAULT_THEME = 'StyledDarkTheme'
+
+function isClient(): boolean {
+	return typeof window !== 'undefined'
+}
+
+function StyledComponentsProvider(props: { children: React.ReactNode }) {
+	const [theme, setTheme] = React.useState<ThemeType>(DEFAULT_THEME)
+	console.log('theme', theme)
+	return (
+		<ThemeProvider theme={getTheme(theme)}>
+			<button
+				onClick={() => {
+					console.log('theme', theme)
+					setTheme(
+						theme === 'StyledDarkTheme'
+							? 'StyledLightTheme'
+							: 'StyledDarkTheme'
+					)
+				}}
+			>
+				Set Theme Element
+			</button>
+			{props.children}
+		</ThemeProvider>
+	)
+}
 
 export default function StyledComponentsRegistry({
 	children,
@@ -19,11 +54,19 @@ export default function StyledComponentsRegistry({
 		return <>{styles}</>
 	})
 
-	if (typeof window !== 'undefined') return <>{children}</>
+	if (isClient()) return <>{children}</>
 
 	return (
 		<StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-			{children}
+			<StyledComponentsProvider>{children}</StyledComponentsProvider>
 		</StyleSheetManager>
 	)
+}
+
+export function withTheme({ theme }: { theme: any }): Theme {
+	if (theme.colors) {
+		return theme
+	} else {
+		return getTheme(DEFAULT_THEME)
+	}
 }

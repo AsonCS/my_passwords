@@ -1,28 +1,38 @@
-export const MP_STYLE_COLORS = 'mp_style_colors'
-
-const colorsLightTheme = `
-	:root {
-		--primary-text: #000000;
+export interface Theme {
+	colors: {
+		primary: {
+			main: string
+			text: string
+		}
+		accent: {
+			main: string
+			text: string
+		}
 	}
-`
-
-const colorsDarkTheme = `
-	:root {
-		--primary-text: red;
-	}
-`
-
-export function getColorsTheme(isDark: boolean = true): string {
-	return isDark ? colorsDarkTheme : colorsLightTheme
 }
 
-export function setTheme(isDark: boolean = false) {
-	try {
-		const style = document.getElementById(
-			MP_STYLE_COLORS
-		) as HTMLStyleElement
-		style.innerHTML = getColorsTheme(isDark)
-	} catch (e) {
-		/* empty */
+export class LightTheme implements Theme {
+	colors = {
+		primary: {
+			main: 'var(--light-colors-primary-main)',
+			text: 'var(--light-colors-primary-text)',
+		},
+		accent: {
+			main: 'var(--light-colors-accent-main)',
+			text: 'var(--light-colors-accent-text)',
+		},
+	}
+}
+
+export class DarkTheme implements Theme {
+	colors = {
+		primary: {
+			main: 'var(--dark-colors-primary-main)',
+			text: 'var(--dark-colors-primary-text)',
+		},
+		accent: {
+			main: 'var(--dark-colors-accent-main)',
+			text: 'var(--dark-colors-accent-text)',
+		},
 	}
 }

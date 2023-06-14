@@ -1,7 +1,5 @@
-/* eslint-disable @next/next/no-page-custom-font */
 import StyledComponentsRegistry from '@/src/ui/infra/styled'
 import { GlobalStyle } from '@/src/ui/theme'
-import { MP_STYLE_COLORS, getColorsTheme } from '@/src/ui/theme/theme'
 import type { Metadata } from 'next'
 import React from 'react'
 
@@ -38,7 +36,6 @@ export default function RootLayout({
 					<GlobalStyle />
 					{children}
 				</StyledComponentsRegistry>
-				<style id={MP_STYLE_COLORS}>{getColorsTheme()}</style>
 			</body>
 		</html>
 	)

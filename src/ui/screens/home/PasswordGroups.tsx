@@ -48,7 +48,10 @@ export default function PasswordGroups({
 	}
 
 	React.useEffect(() => {
-		document.getElementById(homeScreenId)!.onclick = getPasswordGroups
+		const element = document.getElementById(homeScreenId)
+		if (element) {
+			element.onclick = getPasswordGroups
+		}
 
 		getPasswordGroups()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,7 +59,7 @@ export default function PasswordGroups({
 
 	return (
 		<>
-			<a href='fff'>tttt</a>
+			<a href="fff">tttt</a>
 			<ul>{passwordGroups}</ul>
 		</>
 	)

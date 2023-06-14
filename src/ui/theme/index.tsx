@@ -2,20 +2,19 @@
 
 import { createGlobalStyle } from 'styled-components'
 
+import { DarkTheme, LightTheme, Theme } from './theme'
+
 export const GlobalStyle = createGlobalStyle`
-	/* Reset CSS (Necolas Reset CSS <3) */
 	:root {
-		/* 
-		--blue: #3772ff;
-		--green: #36d6ad;
-		--white: #ffffff;
-		--coral: #fc7071;
-		--creme: #fcf0e3;
-		--dark-gray: #737380;
-		--light-gray: #bcbcbc;
-		--light-2-gray: #f6f6f6;
-		--alpha-gray: #66666611;
-		 */
+		--light-colors-primary-main: #ffffff;
+		--light-colors-primary-text: #000000;
+		--light-colors-accent-main: #aaaaaa;
+		--light-colors-accent-text: #555555;
+
+		--dark-colors-primary-main: #000000;
+		--dark-colors-primary-text: #ffffff;
+		--dark-colors-accent-main: #aaaaaa;
+		--dark-colors-accent-text: #555555;
 
 		--font-main: 'Poppins', sans-serif;
 		--font-secondary: 'IBM Plex Sans', sans-serif;
@@ -63,3 +62,7 @@ export const GlobalStyle = createGlobalStyle`
 		width: fit-content;
 	}
 `
+
+export { DarkTheme, LightTheme }
+
+export type { Theme }

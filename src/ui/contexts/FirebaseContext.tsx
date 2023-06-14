@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import React from 'react'
 // import { firebaseType, FirebaseType } from '../../infra/firebase'
@@ -10,9 +10,7 @@ export default FirebaseContext
 
 // export { firebase }
 
-export function FirebaseProvider(props: {
-	children: React.ReactElement
-}) {
+export function FirebaseProvider(props: { children: React.ReactElement }) {
 	return (
 		<FirebaseContext.Provider value={1}>
 			{props.children}

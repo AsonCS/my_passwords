@@ -3,7 +3,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { withTheme } from '@/src/ui/infra/styled'
+import { withTheme } from '../../../../../src/ui/infra/styled'
 
 type PropAs = 'h1' | 'h2' | 'h3' | 'p' | 'label'
 

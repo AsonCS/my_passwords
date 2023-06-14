@@ -19,23 +19,17 @@ function isClient(): boolean {
 
 function StyledComponentsProvider(props: { children: React.ReactNode }) {
 	const [theme, setTheme] = React.useState<ThemeType>(DEFAULT_THEME)
-	console.log('theme', theme)
+	if (isClient()) {
+		(window as any).mpToggleAppTheme = () => {
+			setTheme(
+				theme === 'StyledDarkTheme'
+					? 'StyledLightTheme'
+					: 'StyledDarkTheme'
+			)
+		}
+	}
 	return (
-		<ThemeProvider theme={getTheme(theme)}>
-			<button
-				onClick={() => {
-					console.log('theme', theme)
-					setTheme(
-						theme === 'StyledDarkTheme'
-							? 'StyledLightTheme'
-							: 'StyledDarkTheme'
-					)
-				}}
-			>
-				Set Theme Element
-			</button>
-			{props.children}
-		</ThemeProvider>
+		<ThemeProvider theme={getTheme(theme)}>{props.children}</ThemeProvider>
 	)
 }
 
@@ -54,7 +48,9 @@ export default function StyledComponentsRegistry({
 		return <>{styles}</>
 	})
 
-	if (isClient()) return <>{children}</>
+	if (isClient()) {
+		return <StyledComponentsProvider>{children}</StyledComponentsProvider>
+	}
 
 	return (
 		<StyleSheetManager sheet={styledComponentsStyleSheet.instance}>

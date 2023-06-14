@@ -1,8 +1,9 @@
 import nookies from 'nookies'
+import error from './Console'
 
 const COOKIE_MAX_AGE_YEAR = 60 // * 60 * 24 * 32 * 12
 const COOKIE_OPTIONS = {
-	httpOnly: true,
+	// httpOnly: true,
 	maxAge: COOKIE_MAX_AGE_YEAR,
 	path: '/',
 	sameSite: 'lax',
@@ -25,7 +26,7 @@ function get(key: string, ctx: ServerContext | null): string | null {
 			return nookies.get(null, key)[key]
 		}
 	} catch (err) {
-		// console.error(err)
+		error(err)
 
 		return null
 	}
@@ -40,7 +41,7 @@ function getAll(ctx: ServerContext | null): Array<string> {
 			return Object.keys(cookies).map((key) => cookies[key])
 		}
 	} catch (err) {
-		// console.error(err)
+		error(err)
 
 		return []
 	}
@@ -54,7 +55,7 @@ function set(key: string, value: string, ctx: ServerContext | null) {
 			nookies.set(null, key, value, COOKIE_OPTIONS)
 		}
 	} catch (err) {
-		// console.error(err)
+		error(err)
 	}
 }
 

@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 
 import { Password, PasswordGroup } from '../../../domain/model'
@@ -21,11 +19,7 @@ function mapPasswordGroup(passwordGroup: PasswordGroup): React.ReactElement {
 	)
 }
 
-export default function PasswordGroups({
-	homeScreenId,
-}: {
-	homeScreenId: string
-}) {
+export default function PasswordGroups() {
 	const [passwordGroups, setPasswordGroups] = React.useState<
 		React.ReactElement[]
 	>([])
@@ -48,7 +42,7 @@ export default function PasswordGroups({
 	}
 
 	React.useEffect(() => {
-		const element = document.getElementById(homeScreenId)
+		const element = document.getElementById('homeScreenId')
 		if (element) {
 			element.onclick = getPasswordGroups
 		}

@@ -1,6 +1,4 @@
-'use client'
-
-import { Password } from '@/src/domain/model'
+import { Password } from '@domain/model'
 import Text from '../foundation/typography'
 
 export interface Props {

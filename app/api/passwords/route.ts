@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
-import { tokenCookie } from '@/src/infra/Cookies'
 import { cookies } from 'next/headers'
-import { Password, PasswordGroup } from '@/src/domain/model'
-import { HttpClientResponse } from '@/src/infra/HttpClient'
+
+import { tokenCookie } from '@infra/Cookies'
+import { HttpClientResponse } from '@infra/HttpClient'
+
+import { Password, PasswordGroup } from '@domain/model'
 
 export async function GET(/* request: NextRequest */) {
 	// console.log('request.url', request.url)

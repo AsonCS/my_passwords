@@ -38,10 +38,11 @@ export async function httpClientWithResponse<T>(
 	request: HttpClientRequest
 ): Promise<HttpClientResponse<T>> {
 	return fetch(url, {
+		body: data ? JSON.stringify(data) : null,
+		credentials: "same-origin",
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: data ? JSON.stringify(data) : null,
 		...request,
 	})
 		.then(async (res) => {

@@ -1,9 +1,5 @@
-'use client'
-
 import React from 'react'
 import styled from 'styled-components'
-
-import { withTheme } from '../../../../../src/ui/infra/styled'
 
 type PropAs = 'h1' | 'h2' | 'h3' | 'p' | 'label'
 
@@ -19,7 +15,7 @@ export default function Text({
 	onClick = () => {},
 }: Props) {
 	const StyledText = styled(As)`
-		color: ${(args) => withTheme(args).colors.primary.text};
+		color: black;
 		font-size: 3em;
 	`
 	return <StyledText onClick={onClick}>{children}</StyledText>

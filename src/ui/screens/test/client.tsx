@@ -1,7 +1,5 @@
-'use client'
-
-import { tokenCookie } from '@/src/infra/Cookies'
-import httpClient from '@/src/infra/HttpClient'
+import { tokenCookie } from '@infra/Cookies'
+import httpClient from '@infra/HttpClient'
 
 async function onSubmit(resultId: string, ev: SubmitEvent) {
 	ev.preventDefault()

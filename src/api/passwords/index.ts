@@ -1,19 +1,17 @@
-import { HttpClientResponse, Password } from '@domain/model'
+import { HttpClientResponse, PasswordGroup } from '@domain/model'
 
 import { ControllerAPI } from '..'
-import Controller from './controller'
+import controller from './controller'
 
-function controller(): ControllerAPI<Password> {
-    const controller = new Controller()
-
+export default (): ControllerAPI<PasswordGroup[]> => {
     return {
-        GET: async (params: any): Promise<HttpClientResponse<Password>> => {
-            return await controller.GET({
-                test: params.test
+        GET: async (params: any): Promise<HttpClientResponse<PasswordGroup[]>> => {
+            return await controller().GET({
+                idClient: params.idClient
             })
         },
-        POST: async (): Promise<HttpClientResponse<Password>> => {
-            return await controller.POST()
+        POST: async (): Promise<HttpClientResponse<PasswordGroup[]>> => {
+            return await controller().POST()
         }
     }
 }

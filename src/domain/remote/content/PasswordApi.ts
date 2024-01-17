@@ -1,5 +1,8 @@
-import { PasswordGroup } from '../../model'
+import { Password, PasswordGroup } from '../../model'
 
 export interface PasswordApi {
-	getAll(): Promise<PasswordGroup[]>
+	getAllGroups(): Promise<PasswordGroup[]>
+	getAllPasswords(
+		idGroup: string
+	): Promise<Password[]>
 }

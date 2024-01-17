@@ -1,26 +1,37 @@
 // Import the functions you need from the SDKs you need
-import { /* FirebaseApp, */ initializeApp } from 'firebase/app'
-import { Analytics, getAnalytics } from 'firebase/analytics'
+import { initializeApp } from 'firebase/app'
+import { getAuth, Auth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-export default class Firebase {
+import firebaseFirestore, { FirebaseFirestore } from './remote/FirebaseFirestore';
+
+class Firebase {
 	constructor() {
-		// Initialize Firebase
 		// Your web app's Firebase configuration
 		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-		const app = initializeApp({
-			apiKey: process.env.API_KEY,
-			authDomain: process.env.AUTH_DOMAIN,
-			projectId: process.env.PROJECT_ID,
-			storageBucket: process.env.STORAGE_BUCKET,
-			messagingSenderId: process.env.MESSAGING_SENDER_ID,
-			appId: process.env.APP_ID,
-			measurementId: process.env.MEASUREMENT_ID,
-		})
-		this.analytics = getAnalytics(app)
+		const firebaseConfig = {
+			apiKey: process.env.FIREBASE_API_KEY,
+			authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+			//databaseURL: process.env.FIREBASE_DATABASE_URL,
+			projectId: process.env.FIREBASE_PROJECT_ID,
+			storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+			messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+			appId: process.env.FIREBASE_APP_ID,
+			measurementId: process.env.FIREBASE_MEASUREMENT_ID
+		}
+
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig)
+		this.auth = getAuth(app)
+		this.db = firebaseFirestore(getFirestore(app))
 	}
 
-	// app: FirebaseApp
-	analytics: Analytics
+	public readonly auth: Auth
+	public readonly db: FirebaseFirestore
 }
+
+const firebase = new Firebase()
+
+export default firebase

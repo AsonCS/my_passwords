@@ -1,15 +1,18 @@
 import React from 'react'
 
+import contentService from '@data/index'
+
 import { Password, PasswordGroup } from '../../../domain/model'
 import { tokenCookie } from '../../../infra/Cookies'
-import { contentService } from '../../../data'
 
 function mapPassword(password: Password): React.ReactElement {
-	return <li key={password.id}>{`${password.title}: ${password.value}`}</li>
+	return <li key={password.id}>{`${password.id}-${password.title}: ${password.value}`}</li>
 }
 
 function mapPasswordGroup(passwordGroup: PasswordGroup): React.ReactElement {
-	const passwords = passwordGroup.passwords.map(mapPassword)
+	const passwords = passwordGroup.passwords
+		?.map(mapPassword)
+		|| []
 
 	return (
 		<li key={passwordGroup.id}>
@@ -26,16 +29,27 @@ export default function PasswordGroups() {
 
 	const getPasswordGroups = () => {
 		tokenCookie.set(process.env.NEXT_PUBLIC_TOKEN!)
+		const passwordApi = contentService().passwordApi()
 
-		contentService.passwordApi
-			.getAll()
-			.then((passwordGroups) => {
+		passwordApi.getAllGroups()
+			.then(async (groups) => {
 				// console.log('passwordGroups')
+				const passwordGroups = await Promise.all(
+					groups.map(async (group) => {
+						return new PasswordGroup({
+							id: group.id,
+							title: group.title,
+							passwords: await passwordApi
+								.getAllPasswords(group.id)
+								.catch(() => Promise.resolve(null))
+						})
+					})
+				)
 
 				setPasswordGroups(passwordGroups.map(mapPasswordGroup))
 			})
-			.catch((/* err */) => {
-				// console.error(err)
+			.catch((err) => {
+				console.error(err)
 
 				setPasswordGroups([])
 			})
@@ -47,7 +61,7 @@ export default function PasswordGroups() {
 			element.onclick = getPasswordGroups
 		}
 
-		getPasswordGroups()
+		// getPasswordGroups()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 

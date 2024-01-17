@@ -1,35 +1,28 @@
-import { Password } from '@domain/model'
+import { PasswordGroup } from '@domain/model'
 import { HttpClientResponse } from '@domain/model'
 
-import { HttpStatus } from '@infra/api'
-
 import type { ControllerAPI } from '../index'
+import getAllPasswordGroups from './remote/GetAllPasswordGroups'
+import getAllPasswords from './remote/GetAllPasswords'
 
 export interface GetParams {
-    test: string
+    idClient: string,
+    idGroup?: string | undefined
 }
 
-export default class Controller implements ControllerAPI<Password> {
-    async GET(
-        params: GetParams
-    ): Promise<HttpClientResponse<Password>> {
-        return new HttpClientResponse({
-            data: {
-                id: 'id',
-                title: `title GET ${params.test}`,
-                value: `value GET ${params.test}`,
-            },
-            status: HttpStatus.OK
-        })
-    };
-    async POST(): Promise<HttpClientResponse<Password>> {
-        return new HttpClientResponse({
-            data: {
-                id: 'id',
-                title: 'title POST',
-                value: 'value POST'
-            },
-            status: HttpStatus.OK
-        })
+export default (): ControllerAPI => {
+    return {
+        async GET(
+            params: GetParams
+        ): Promise<HttpClientResponse<any>> {
+            if (params.idGroup) {
+                return getAllPasswords(params.idClient, params.idGroup)
+            } else {
+                return getAllPasswordGroups(params.idClient)
+            }
+        },
+        async POST(): Promise<HttpClientResponse<any>> {
+            return new HttpClientResponse()
+        }
     }
 }

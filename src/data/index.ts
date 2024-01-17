@@ -1,8 +1,7 @@
-import { PasswordApi } from '../domain/remote'
-import { PasswordApiImpl } from './remote/content/PasswordApiImpl'
+import passwordApi from './remote/content/PasswordApiImpl'
 
-const contentService = {
-	passwordApi: new PasswordApiImpl() as PasswordApi,
+export default function contentService() {
+    return {
+        passwordApi
+    }
 }
-
-export { contentService }

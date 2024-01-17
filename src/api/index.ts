@@ -1,8 +1,8 @@
 import { HttpClientResponse } from "@domain/model"
 
-export abstract class ControllerAPI<T> {
+export abstract class ControllerAPI {
     [propName: string]: any
 
-    GET: (params?: any) => Promise<HttpClientResponse<T>> = async () => new HttpClientResponse()
-    POST: (params?: any) => Promise<HttpClientResponse<T>> = async () => new HttpClientResponse()
+    GET: (params?: any) => Promise<HttpClientResponse<any>> = async () => new HttpClientResponse()
+    POST: (params?: any) => Promise<HttpClientResponse<any>> = async () => new HttpClientResponse()
 }

@@ -1,4 +1,4 @@
-import { HttpClientResponse } from "@infra/api/HttpClientResponse"
+import { HttpClientResponse } from "@domain/model"
 
 export type HttpClientRequest = {
 	method: string

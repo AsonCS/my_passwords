@@ -1,6 +1,6 @@
 import { InvalidArgumentException } from '../../exception'
 
-export class User {
+export default class User {
 	constructor({
 		idClient,
 		nickname,

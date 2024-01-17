@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { tokenCookie } from '@/src/infra/Cookies'
+import { tokenCookie } from '@infra/Cookies'
 import { cookies } from 'next/headers'
 
 export async function GET(request: NextRequest) {

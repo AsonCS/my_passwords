@@ -1,7 +1,7 @@
 import { InvalidArgumentException } from '../../exception'
-import { Password } from './Password'
+import Password from './Password'
 
-export class PasswordGroup {
+export default class PasswordGroup {
 	constructor({
 		id,
 		title,

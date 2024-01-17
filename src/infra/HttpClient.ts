@@ -1,11 +1,7 @@
+import { HttpClientResponse } from "@infra/api/HttpClientResponse"
+
 export type HttpClientRequest = {
 	method: string
-}
-
-export interface HttpClientResponse<T> {
-	data: T | null | undefined
-	error: Error | string | null
-	status: number
 }
 
 export default async function httpClient<T>(
@@ -55,17 +51,15 @@ export async function httpClientWithResponse<T>(
 				data = null
 			}
 
-			return {
+			return new HttpClientResponse({
 				data: data,
 				error: error,
-				status: res.status,
-			} as HttpClientResponse<T>
+				status: res.status
+			})
 		})
 		.catch((err) => {
-			return {
-				data: null,
-				error: err || 'Unknown error',
-				status: -1,
-			}
+			return new HttpClientResponse({
+				error: err || 'Unknown error'
+			})
 		})
 }

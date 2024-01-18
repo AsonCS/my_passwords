@@ -1,9 +1,9 @@
-import { HttpClientResponse, PasswordGroup } from "@domain/model";
+import { HttpClientResponse, PasswordGroup } from '@domain/model'
 
 import { passwordApi } from '../../_remote'
-import { HttpStatus } from "@infra/api";
+import { HttpStatus } from '@infra/api';0
 
-export default async (
+const getAllPasswordGroups = async (
     idClient: string
 ): Promise<HttpClientResponse<PasswordGroup[]>> => {
     const result = await passwordApi(idClient)
@@ -14,3 +14,5 @@ export default async (
         status: HttpStatus.OK
     })
 }
+
+export default getAllPasswordGroups

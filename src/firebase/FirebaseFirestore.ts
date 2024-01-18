@@ -4,11 +4,22 @@ import {
     getDocs
 } from 'firebase/firestore'
 
+import { HttpClientResponse } from '@domain/model'
+import { HttpStatus } from '@infra/api'
+
 // region PATHS
 export const PATH_PASSWORDS = 'PASSWORDS'
 export const PATH_USER = 'USERS'
 
+// eslint-disable-next-line no-unused-vars
+enum FirestoreErrorCode {
+    // eslint-disable-next-line no-unused-vars
+    PermissionDenied = 'permission-denied'
+}
+
 export default class FirebaseFirestore {
+
+    private readonly firestore: Firestore
 
     constructor(
         firestore: Firestore
@@ -18,7 +29,7 @@ export default class FirebaseFirestore {
 
     getDocs(
         path: string
-    ): Promise<any[]> {
+    ): Promise<HttpClientResponse<any[]>> {
         return getDocs(
             collection(
                 this.firestore,
@@ -32,9 +43,28 @@ export default class FirebaseFirestore {
 
                 return result
             })
+        ).then((result) => new HttpClientResponse(
+            {
+                data: result,
+                status: HttpStatus.OK
+            }
         )
+        ).catch((error) => {
+            //console.error(error)
+            let status: HttpStatus
+            switch (error?.code) {
+                case FirestoreErrorCode.PermissionDenied:
+                    status = HttpStatus.Unautjorized
+                    break
+                
+                default:
+                    status = HttpStatus.InternalServerError
+            }
+            throw new HttpClientResponse({
+                error: error?.message,
+                status: status
+            })
+        })
     }
-
-    private readonly firestore: Firestore
 
 }

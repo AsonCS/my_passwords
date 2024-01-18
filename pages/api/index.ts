@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { HttpClientResponse } from '@domain/model'
+import { auth } from '@firebase/index'
 
 export async function apiHandler(
     req: NextApiRequest,
@@ -8,6 +9,8 @@ export async function apiHandler(
     // eslint-disable-next-line no-unused-vars
     controller: (method: string) => ((params?: any) => Promise<HttpClientResponse<any>>)
 ) {
+    console.log('currentUser', auth().currentUser)
+    
     let result: HttpClientResponse<any>
 
     try {
@@ -18,11 +21,15 @@ export async function apiHandler(
             ...req.body
         })
     } catch (e) {
-        result = new HttpClientResponse({
-            error: e instanceof Error
-                ? e.message
-                : 'Unknown error'
-        })
+        if (e instanceof HttpClientResponse) {
+            result = e
+        } else {
+            result = new HttpClientResponse({
+                error: e instanceof Error
+                    ? e.message
+                    : 'Unknown error'
+            })
+        }
     }
 
     res.status(result.status)

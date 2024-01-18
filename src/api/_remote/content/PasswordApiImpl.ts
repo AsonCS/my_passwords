@@ -10,14 +10,14 @@ const passwordApi = (
         async getAllGroups(): Promise<PasswordGroup[]> {
             return await passwords()
                 .passwordsGroups(idClient)
-                .then(passwords => passwords.map(password => new PasswordGroup(password)))
+                .then(response => (response.data || []).map(password => new PasswordGroup(password)))
         },
         async getAllPasswords(
             idGroup: string
         ): Promise<Password[]> {
             return await passwords()
                 .passwords(idClient, idGroup)
-                .then(passwords => passwords.map(password => new Password(password)))
+                .then(response => (response.data || []).map(password => new Password(password)))
         }
     }
 }

@@ -1,0 +1,19 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/blocks'
+
+import Text from './'
+
+<Meta title="Components/Foundation/Typography" component={Text} />
+
+# Typography
+
+Component Typography
+
+<ArgsTable of={Text} />
+
+## Example
+
+<Canvas>
+	<Story name="Typography Example" args={{ children: 'Typography Example' }}>
+		{(args) => <Text {...args} />}
+	</Story>
+</Canvas>

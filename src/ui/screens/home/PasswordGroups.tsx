@@ -48,8 +48,8 @@ export default function PasswordGroups() {
 
 				setPasswordGroups(passwordGroups.map(mapPasswordGroup))
 			})
-			.catch((err) => {
-				console.error(err)
+			.catch(() => {
+				// console.error(err)
 
 				setPasswordGroups([])
 			})

@@ -1,4 +1,3 @@
-import { PasswordGroup } from '@domain/model'
 import { HttpClientResponse } from '@domain/model'
 
 import type { ControllerAPI } from '../index'
@@ -10,7 +9,7 @@ export interface GetParams {
     idGroup?: string | undefined
 }
 
-export default (): ControllerAPI => {
+const controller = (): ControllerAPI => {
     return {
         async GET(
             params: GetParams
@@ -26,3 +25,5 @@ export default (): ControllerAPI => {
         }
     }
 }
+
+export default controller

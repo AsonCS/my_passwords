@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { controller } from '@api/passwords'
+import controller from '@api/passwords'
 import { apiHandler } from '..'
 
 export default async function handler(

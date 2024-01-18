@@ -1,4 +1,4 @@
-import { HttpClientResponse } from "@domain/model"
+import { HttpClientResponse } from '@domain/model'
 
 export type HttpClientRequest = {
 	method: string
@@ -35,7 +35,7 @@ export async function httpClientWithResponse<T>(
 ): Promise<HttpClientResponse<T>> {
 	return fetch(url, {
 		body: data ? JSON.stringify(data) : null,
-		credentials: "same-origin",
+		credentials: 'same-origin',
 		headers: {
 			'Content-Type': 'application/json',
 		},

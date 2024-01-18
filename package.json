@@ -6,12 +6,11 @@
 		"dev": "next dev",
 		"dev:storybook": "storybook dev -p 6006 --no-open",
 		"serve": "next lint && jest && yarn build-storybook && next build && next start",
-		"test": "jest --verbose",
-		"coverage": "jest --verbose --coverage",
+		"test": "jest --verbose --coverage",
+		"lint": "next lint",
+		"build-storybook": "storybook build -o public/storybook-static",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint",
-		"build-storybook": "rm -r 'public/storybook-static' && storybook build -o 'public/storybook-static'",
 		"serve-firebase": "firebase serve"
 	},
 	"dependencies": {

@@ -1,4 +1,5 @@
 import {
+    addDoc,
     collection,
     Firestore,
     getDocs
@@ -25,6 +26,21 @@ export default class FirebaseFirestore {
         firestore: Firestore
     ) {
         this.firestore = firestore
+    }
+
+    createDoc(
+        path: string,
+        doc: any
+    ): Promise<HttpClientResponse<any>> {
+        return addDoc(
+            collection(
+                this.firestore,
+                path
+            ),
+            doc
+        ).then(() => new HttpClientResponse({
+            data: {}
+        }))
     }
 
     getDocs(

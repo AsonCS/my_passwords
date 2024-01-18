@@ -23,7 +23,7 @@ async function onSubmit(resultId: string, ev: SubmitEvent) {
 
 export function OnSubmit(props: { formId: string; resultId: string }) {
 	try {
-		tokenCookie.set('Cookie-Test')
+		//tokenCookie.set('Cookie-Test')
 		const form = document.getElementById(props.formId) as HTMLFormElement
 		form.onsubmit = (ev: SubmitEvent) => onSubmit(props.resultId, ev)
 	} catch (e) {

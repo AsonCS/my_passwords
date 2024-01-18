@@ -66,6 +66,12 @@ export default function Login() {
             //console.log(result.error)
         }
     }
+    const onSignOut = () => {
+        auth()
+            .signOut()
+            .then(() => alert('Logged out success'))
+            .catch(() => alert('Logged out error'))
+        }
 
     return (
         <Div>
@@ -74,6 +80,9 @@ export default function Login() {
                 <Button
                     onClick={onLogin}
                 >Sign in</Button>
+                <Button
+                    onClick={onSignOut}
+                >Sign out</Button>
             </Content>
         </Div>
     )

@@ -1,10 +1,14 @@
-import { HttpClientResponse } from '@domain/model'
 import {
     Auth,
     GoogleAuthProvider,
     signInWithPopup,
     User
 } from 'firebase/auth'
+
+import { HttpClientResponse } from '@domain/model'
+
+import { tokenCookie } from '@infra/Cookies'
+import { HttpStatus } from '@infra/api'
 
 export default class FirebaseAuth {
 
@@ -20,18 +24,24 @@ export default class FirebaseAuth {
     public get currentUser() : User | null {
         return this.auth.currentUser
     }
-    
+
+    signOut(): Promise<void> {
+        return this.auth.signOut()
+    }    
 
     async signInWithPopup(): Promise<HttpClientResponse<any>> {
         const currentUser = this.currentUser
         if (currentUser) {
+            const token = await currentUser.getIdToken()
+            tokenCookie.set(token)
             return Promise.resolve(
                 new HttpClientResponse({
                     data: {
-                        token: await currentUser.getIdToken(),
-                        user: currentUser,
+                        displayName: currentUser.displayName,
+                        email: currentUser.email,
                         alreadyLoggedIn: true
-                    }
+                    },
+                    status: HttpStatus.OK
                 })
             )
         }
@@ -42,16 +52,20 @@ export default class FirebaseAuth {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 const credential = GoogleAuthProvider.credentialFromResult(result)
                 const token = credential?.accessToken
+                if (token) {
+                    tokenCookie.set(token)
+                }
                 // The signed-in user info.
                 const user = result.user
                 // IdP data available using getAdditionalUserInfo(result)
                 // ...
-
+                
                 return new HttpClientResponse({
                     data: {
-                        token,
-                        user
-                    }
+                        displayName: user.displayName,
+                        email: user.email
+                    },
+                    status: HttpStatus.OK
                 })
             }).catch((error) => {
                 // Handle Errors here.

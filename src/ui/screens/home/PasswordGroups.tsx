@@ -28,7 +28,6 @@ export default function PasswordGroups() {
 	>([])
 
 	const getPasswordGroups = () => {
-		tokenCookie.set(process.env.NEXT_PUBLIC_TOKEN!)
 		const passwordApi = contentService().passwordApi()
 
 		passwordApi.getAllGroups()

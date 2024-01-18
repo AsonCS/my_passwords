@@ -1,9 +1,9 @@
-import { Password, PasswordGroup } from "@domain/model";
-import { PasswordApi } from "@domain/remote";
+import { Password, PasswordGroup } from '@domain/model'
+import { PasswordApi } from '@domain/remote'
 
-import { passwords } from "@firebase/index";
+import { passwords } from '@firebase/index'
 
-export default (
+const passwordApi = (
     idClient: string
 ): PasswordApi => {
     return {
@@ -21,3 +21,5 @@ export default (
         }
     }
 }
+
+export default passwordApi

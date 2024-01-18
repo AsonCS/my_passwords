@@ -5,6 +5,7 @@ import { HttpClientResponse } from '@domain/model'
 export async function apiHandler(
     req: NextApiRequest,
     res: NextApiResponse,
+    // eslint-disable-next-line no-unused-vars
     controller: (method: string) => ((params?: any) => Promise<HttpClientResponse<any>>)
 ) {
     let result: HttpClientResponse<any>

@@ -1,4 +1,4 @@
-import passwordApiImpl from "./content/PasswordApiImpl";
+import passwordApiImpl from './content/PasswordApiImpl'
 
 const passwordApi = (idClient: string) => passwordApiImpl(idClient)
 

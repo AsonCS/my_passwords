@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 import {
     ThemeProvider as StyledThemeProvider,
     useTheme as useThemeStyled,
-} from 'styled-components';
+} from 'styled-components'
 
-import { getTheme, ThemeType } from "./theme";
+import { getTheme, ThemeType } from './theme'
 
 export function useTheme(): ThemeType {
-    return useThemeStyled() as unknown as any;
+    return useThemeStyled() as unknown as any
 }
 
 interface ThemeProviderProps {

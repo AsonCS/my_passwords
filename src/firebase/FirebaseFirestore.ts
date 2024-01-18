@@ -2,7 +2,7 @@ import {
     collection,
     Firestore,
     getDocs
-} from "firebase/firestore"
+} from 'firebase/firestore'
 
 // region PATHS
 export const PATH_PASSWORDS = 'PASSWORDS'

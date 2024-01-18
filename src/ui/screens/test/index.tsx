@@ -1,12 +1,13 @@
-import { tokenCookie } from '@/src/infra/Cookies'
 import { cookies } from 'next/headers'
-import { randomId } from '../../infra'
+
+import { tokenCookie } from '@infra/Cookies'
+
 import { OnSubmit } from './client'
 import { Link } from '../../infra/next'
 
 export default function HomeScreen() {
-	const formId = randomId('home_form')
-	const resultId = randomId('home_result')
+	const formId = 'home_form'
+	const resultId = 'home_result'
 	return (
 		<>
 			<h1>Hello word</h1>

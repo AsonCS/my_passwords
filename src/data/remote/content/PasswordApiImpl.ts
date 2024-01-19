@@ -1,18 +1,34 @@
-import { Password, PasswordGroup } from '../../../domain/model'
-import { PasswordApi } from '../../../domain/remote'
-import httpClient from '../../../infra/HttpClient'
+import { PasswordGroup } from '@domain/model'
+import { PasswordApi } from '@domain/remote'
 
-const passwordApi = (): PasswordApi => {
+import httpClient, { HttpClientRequest } from '@infra/HttpClient'
+
+export const passwordApi = (): PasswordApi => {
 	return {
 		async getAllGroups(): Promise<PasswordGroup[]> {
-			return httpClient('/api/passwords?idClient=TesteId1')
+			return httpClient(
+				'/api/passwords'
+			)
 		},
-		async getAllPasswords(
+		async getGroup(
 			idGroup: string
-		): Promise<Password[]> {
-			return httpClient(`/api/passwords/${idGroup}?idClient=TesteId1`)
+		): Promise<PasswordGroup> {
+			return httpClient(
+				`/api/passwords/${idGroup}`
+			)
+		},
+		async putGroup(
+			applyTransform: boolean,
+			group: PasswordGroup
+		): Promise<PasswordGroup> {
+			return httpClient(
+				'/api/passwords',
+				{
+					applyTransform,
+					...group
+				},
+				HttpClientRequest.post()
+			)
 		}
 	}
 }
-
-export default passwordApi

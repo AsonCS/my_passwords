@@ -7,7 +7,7 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    apiHandler(
+    return apiHandler(
         req,
         res,
         (method: string) => (params?: any) => controller()[method](params)

@@ -1,4 +1,4 @@
-import { HttpStatus } from '../../../infra/api'
+import { HttpStatus } from './HttpStatus'
 
 export default class HttpClientResponse<T> {
     constructor({
@@ -7,7 +7,7 @@ export default class HttpClientResponse<T> {
         status = HttpStatus.InternalServerError
     }: {
         data?: T | null | undefined,
-        error?: Error | string | null,
+        error?: Error | string | any | null,
         status?: HttpStatus
     } = {}) {
         this.data = data
@@ -16,6 +16,6 @@ export default class HttpClientResponse<T> {
     }
 
     readonly data: T | null | undefined
-    readonly error: Error | string | null
+    readonly error: Error | string | any | null
     readonly status: HttpStatus
 }

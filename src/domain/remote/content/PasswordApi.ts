@@ -1,9 +1,15 @@
-import { Password, PasswordGroup } from '../../model'
+import { PasswordGroup } from '@domain/model'
 
 export interface PasswordApi {
 	getAllGroups(): Promise<PasswordGroup[]>
-	getAllPasswords(
+	getGroup(
 		// eslint-disable-next-line no-unused-vars
 		idGroup: string
-	): Promise<Password[]>
+	): Promise<PasswordGroup>
+	putGroup(
+		// eslint-disable-next-line no-unused-vars
+		applyTransform: boolean,
+		// eslint-disable-next-line no-unused-vars
+		group: PasswordGroup
+	): Promise<PasswordGroup>
 }

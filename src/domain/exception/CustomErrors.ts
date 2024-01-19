@@ -16,6 +16,7 @@ export default class CustomErrors extends Error {
 		this.name = name
 		this.internalErrorCode = internalErrorCode
 		this.httpErrorCode = httpErrorCode
+		this._message = message
 
 		Object.setPrototypeOf(this, prototype)
 	}
@@ -23,18 +24,6 @@ export default class CustomErrors extends Error {
 	private readonly internalErrorCode: string
 
 	readonly httpErrorCode: number
-
-	public get getError(): {
-		error: {
-			message: string
-			internalCode: string
-		}
-	} {
-		return {
-			error: {
-				message: this.message,
-				internalCode: this.internalErrorCode,
-			},
-		}
-	}
+	readonly _message: any
+	
 }

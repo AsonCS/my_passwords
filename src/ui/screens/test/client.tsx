@@ -1,4 +1,3 @@
-import { tokenCookie } from '@infra/Cookies'
 import httpClient from '@infra/HttpClient'
 
 async function onSubmit(resultId: string, ev: SubmitEvent) {

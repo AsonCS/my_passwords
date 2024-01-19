@@ -1,18 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import { Auth, getAuth } from 'firebase/auth'
-import { getFirestore, Firestore } from 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-import FirebaseFirestore from './FirebaseFirestore'
 import FirebaseAuth from './FirebaseAuth'
-import passwordsFirestore from './remote/Passwords'
 
 class Firebase {
 
-	public readonly auth: Auth
-	public readonly db: Firestore
+	private readonly auth: Auth
 
 	constructor() {
 		//console.log('Firebase-constructor')
@@ -32,26 +28,15 @@ class Firebase {
 		// Initialize Firebase
 		const app = initializeApp(firebaseConfig)
 		this.auth = getAuth(app)
-		this.db = getFirestore(app)
+	}
+	
+	public get firebaseAuth(): FirebaseAuth {
+		//console.log('Firebase-auth')
+		return new FirebaseAuth(firebase.auth)
 	}
 
 }
 
 const firebase = new Firebase()
 
-const auth = () => {
-	//console.log('Firebase-auth')
-	return new FirebaseAuth(firebase.auth)
-}
-
-const passwords = () => {
-	//console.log('Firebase-passwords')
-	return passwordsFirestore(
-		new FirebaseFirestore(firebase.db)
-	)
-}
-
-export {
-	auth,
-	passwords
-}
+export default firebase

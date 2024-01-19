@@ -1,12 +1,7 @@
-import {
-    addDoc,
-    collection,
-    Firestore,
-    getDocs
-} from 'firebase/firestore'
+import { Firestore } from 'firebase-admin/firestore'
 
-import { HttpClientResponse } from '@domain/model'
-import { HttpStatus } from '@infra/api'
+import { HttpClientResponse, HttpStatus } from '@domain/model'
+import { logError } from '@infra/Console'
 
 // region PATHS
 export const PATH_PASSWORDS = 'PASSWORDS'
@@ -28,59 +23,83 @@ export default class FirebaseFirestore {
         this.firestore = firestore
     }
 
+    private throwError(
+        error: any
+    ): Promise<HttpClientResponse<any>> {
+        logError(error)
+        let status: HttpStatus
+        switch (error?.code) {
+            case FirestoreErrorCode.PermissionDenied:
+                status = HttpStatus.Unautjorized
+                break
+            
+            default:
+                status = HttpStatus.InternalServerError
+        }
+        throw new HttpClientResponse({
+            error: error?.message,
+            status: status
+        })
+    }
+
     createDoc(
         path: string,
         doc: any
     ): Promise<HttpClientResponse<any>> {
-        return addDoc(
-            collection(
-                this.firestore,
-                path
-            ),
-            doc
-        ).then(() => new HttpClientResponse({
-            data: {}
-        }))
+        return this
+            .firestore
+            .collection(path)
+            .add(doc)
+            .then((result) => {
+                return new HttpClientResponse({
+                    data: {
+                        id: result.id,
+                        ...doc
+                    }
+                })
+            }).catch(this.throwError)
+    }
+
+    getDoc(
+        path: string
+    ): Promise<HttpClientResponse<any>> {
+        return this
+            .firestore
+            .doc(path)
+            .get()
+            .then((doc) => {
+                const result = doc.data()
+                if (!result) {
+                    throw new Error('Doc Not Found')
+                }
+                result.id = doc.id
+
+                return result
+            }).then((result) => new HttpClientResponse({
+                data: result,
+                status: HttpStatus.OK
+            })).catch(this.throwError)
     }
 
     getDocs(
         path: string
     ): Promise<HttpClientResponse<any[]>> {
-        return getDocs(
-            collection(
-                this.firestore,
-                path
-            )
-        ).then((snapshot) => snapshot
-            .docs
-            .map((doc) => {
-                const result = doc.data()
-                result.id = doc.id
+        return this
+            .firestore
+            .collection(path)
+            .get()
+            .then((snapshot) => snapshot
+                .docs
+                .map((doc) => {
+                    const result = doc.data()
+                    result.id = doc.id
 
-                return result
-            })
-        ).then((result) => new HttpClientResponse(
-            {
+                    return result
+                })
+            ).then((result) => new HttpClientResponse({
                 data: result,
                 status: HttpStatus.OK
-            }
-        )
-        ).catch((error) => {
-            //console.error(error)
-            let status: HttpStatus
-            switch (error?.code) {
-                case FirestoreErrorCode.PermissionDenied:
-                    status = HttpStatus.Unautjorized
-                    break
-                
-                default:
-                    status = HttpStatus.InternalServerError
-            }
-            throw new HttpClientResponse({
-                error: error?.message,
-                status: status
-            })
-        })
+            })).catch(this.throwError)
     }
 
 }

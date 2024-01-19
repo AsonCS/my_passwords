@@ -42,3 +42,7 @@ next-env.d.ts
 # Storybook
 /public/storybook-static
 /public/storybook-static/
+
+# keys
+/keystore
+/keystore/

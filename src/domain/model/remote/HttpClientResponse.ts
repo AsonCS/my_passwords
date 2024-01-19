@@ -1,4 +1,4 @@
-import { HttpStatus } from '../../../infra/api'
+import { HttpStatus } from './HttpStatus'
 
 export default class HttpClientResponse<T> {
     constructor({

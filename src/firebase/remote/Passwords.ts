@@ -6,77 +6,60 @@ import FirebaseFirestore, {
     PATH_PASSWORDS
 } from '@firebase/FirebaseFirestore'
 
+export interface GroupDoc {
+    title: string
+    passwords: string | undefined
+}
+
 export interface PasswordsFirestore {
-    login: (
-        // eslint-disable-next-line no-unused-vars
-        idClient: string,
-        // eslint-disable-next-line no-unused-vars
-        email: string
-    ) => Promise<HttpClientResponse<any>>,
-    passwords: (
+    group: (
         // eslint-disable-next-line no-unused-vars
         idClient: string,
         // eslint-disable-next-line no-unused-vars
         idGroup: string
-    ) => Promise<HttpClientResponse<any[]>>
+    ) => Promise<HttpClientResponse<any>>
     passwordsGroups: (
         // eslint-disable-next-line no-unused-vars
         idClient: string
     ) => Promise<HttpClientResponse<any[]>>
+    putGroup: (
+        // eslint-disable-next-line no-unused-vars
+        idClient: string,
+        // eslint-disable-next-line no-unused-vars
+        groupDoc: GroupDoc
+    ) => Promise<HttpClientResponse<any>>
 }
 
 const passwordsFirestore =  (
     firestore: FirebaseFirestore
 ): PasswordsFirestore => {
     return {
-        login: async (
-            idClient: string,
-            email: string
-        ): Promise<HttpClientResponse<any>> => {
-            error
-            if (!idClient || !email) {
-                const error = new InvalidArgumentException(
-                    'idClient or email missing'
-                )
-                return new HttpClientResponse({
-                    error: error,
-                    status: error.httpErrorCode
-                })
-            }
-
-            return firestore.createDoc(
-                `${PATH_USER}`,
-                {
-                    email
-                }
-            )
-        },
-        passwords: async (
+        async group(
             idClient: string,
             idGroup: string
-        ): Promise<HttpClientResponse<any[]>> => {
+        ): Promise<HttpClientResponse<any>> {
             if (!idClient || !idGroup) {
                 const error = new InvalidArgumentException(
                     'idClient or idGroup missing'
                 )
-                return new HttpClientResponse({
+                throw new HttpClientResponse({
                     error: error,
                     status: error.httpErrorCode
                 })
             }
 
-            return firestore.getDocs(
-                `${PATH_USER}/${idClient}/${PATH_PASSWORDS}/${idGroup}/${PATH_PASSWORDS}`
+            return firestore.getDoc(
+                `${PATH_USER}/${idClient}/${PATH_PASSWORDS}/${idGroup}`
             )
         },
-        passwordsGroups: async (
+        async passwordsGroups(
             idClient: string
-        ): Promise<HttpClientResponse<any[]>> => {
+        ): Promise<HttpClientResponse<any[]>> {
             if (!idClient) {
                 const error = new InvalidArgumentException(
                     'idClient missing'
                 )
-                return new HttpClientResponse({
+                throw new HttpClientResponse({
                     error: error,
                     status: error.httpErrorCode
                 })
@@ -84,6 +67,25 @@ const passwordsFirestore =  (
 
             return firestore.getDocs(
                 `${PATH_USER}/${idClient}/${PATH_PASSWORDS}`
+            )
+        },
+        async putGroup(
+            idClient: string,
+            groupDoc: GroupDoc
+        ): Promise<HttpClientResponse<any>> {
+            if (!idClient) {
+                const error = new InvalidArgumentException(
+                    'idClient missing'
+                )
+                throw new HttpClientResponse({
+                    error: error,
+                    status: error.httpErrorCode
+                })
+            }
+
+            return firestore.createDoc(
+                `${PATH_USER}/${idClient}/${PATH_PASSWORDS}`,
+                groupDoc
             )
         }
     }

@@ -1,14 +1,12 @@
 import {
     Auth,
     GoogleAuthProvider,
-    signInWithPopup,
-    User
+    signInWithPopup
 } from 'firebase/auth'
 
-import { HttpClientResponse } from '@domain/model'
+import { HttpClientResponse, HttpStatus } from '@domain/model'
 
-import { tokenCookie } from '@infra/Cookies'
-import { HttpStatus } from '@infra/api'
+import { logError } from '@infra/Console'
 
 export default class FirebaseAuth {
 
@@ -19,21 +17,29 @@ export default class FirebaseAuth {
     ) {
         this.auth = auth
     }
-
     
-    public get currentUser() : User | null {
-        return this.auth.currentUser
+    public get token(): Promise<string | null> {
+        const currentUser = this.auth.currentUser
+
+        if (!currentUser) {
+            return Promise.resolve(null)
+        }
+
+        return currentUser.getIdToken()
+            .catch((error) => {
+                logError(error)
+                return null
+            })
     }
+    
 
     signOut(): Promise<void> {
         return this.auth.signOut()
     }    
 
     async signInWithPopup(): Promise<HttpClientResponse<any>> {
-        const currentUser = this.currentUser
+        const currentUser = this.auth.currentUser
         if (currentUser) {
-            const token = await currentUser.getIdToken()
-            tokenCookie.set(token)
             return Promise.resolve(
                 new HttpClientResponse({
                     data: {
@@ -50,11 +56,8 @@ export default class FirebaseAuth {
         return await signInWithPopup(this.auth, provider)
             .then((result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result)
-                const token = credential?.accessToken
-                if (token) {
-                    tokenCookie.set(token)
-                }
+                //const credential = GoogleAuthProvider.credentialFromResult(result)
+                //const token = credential?.accessToken
                 // The signed-in user info.
                 const user = result.user
                 // IdP data available using getAdditionalUserInfo(result)

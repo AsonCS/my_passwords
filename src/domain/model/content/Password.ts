@@ -1,25 +1,39 @@
 import { InvalidArgumentException } from '../../exception'
 
 export default class Password {
+
+	public readonly title: string
+	public readonly value: string
+
 	constructor({
-		id,
 		title,
 		value,
 	}: {
-		id: string | undefined | null
 		title: string | undefined | null
 		value: string | undefined | null
 	}) {
-		if (!id?.trim() || !title?.trim() || !value?.trim()) {
+		if (!title?.trim() || !value?.trim()) {
 			throw new InvalidArgumentException(Password.name)
 		}
 
-		this.id = id
-		this.title = title
-		this.value = value
+		this.title = title.trim()
+		this.value = value.trim()
 	}
 
-	public readonly id: string
-	public readonly title: string
-	public readonly value: string
+	static fromRemote(password: string): Password {
+		const [title, value] = password.split(':')
+		return new Password({
+			title: title,
+			value: value
+		})
+	}
+
+	toString(): string {
+		return `${this.title}:${this.value}`
+	}
+
+}
+
+Password.prototype.toString = function passwordToString() {
+	return `${this.title}:${this.value}`
 }

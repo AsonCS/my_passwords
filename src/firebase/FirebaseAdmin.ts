@@ -1,4 +1,3 @@
-import path from 'path'
 import admin from 'firebase-admin'
 import { initializeApp, getApp } from 'firebase-admin/app'
 
@@ -24,7 +23,7 @@ export class FirebaseAdmin {
 		} catch(e) { /* empty */ }
 		
 		// Initialize Firebase
-		const serviceAccountKey = path.resolve('./keystore/firebase_service_account_key.json')
+		const serviceAccountKey = JSON.parse(process.env.FIREBASE_CONFIG!)
 		const app = initializeApp({
 			credential: admin.credential.cert(serviceAccountKey)
 		})
